@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Image, ScrollControls, useScroll } from '@react-three/drei';
+import { Image, ScrollControls, useGLTF, useScroll } from '@react-three/drei';
 import { easing } from 'maath';
 import ReactPlayer from 'react-player'; // To play YouTube videos
 import './util';
@@ -18,20 +18,23 @@ export const App = () => {
   };
 
   return (
-    <>
+    <Suspense fallback={<div className='text-white'>Loading...</div>}>
       <Canvas camera={{ position: [0, 0, 100], fov: 15 }}>
+        <ambientLight position={[0, 0, 0]} />
         <fog attach="fog" args={['#a79', 8.5, 12]} />
         <ScrollControls pages={1}>
           <Rig rotation={[0, 0, 0.15]}>
             <Carousel openOverlay={openOverlay} />
           </Rig>
+          <Model position={[0, 0, 0]} scale={[0.6, 0.6, 0.6]} rotation={[0, -Math.PI / 4, 0]} /> {/* Adjust position and scale as needed */}
         </ScrollControls>
       </Canvas>
+
 
       {overlay.isOpen && (
         <Overlay mediaType={overlay.mediaType} mediaUrl={overlay.mediaUrl} onClose={closeOverlay} />
       )}
-    </>
+    </Suspense>
   );
 };
 
@@ -120,5 +123,18 @@ function Overlay({ mediaType, mediaUrl, onClose }) {
         <img src={mediaUrl} alt="Selected" />
       )}
     </div>
+  );
+}
+function Model({ position, scale }) {
+  const { scene } = useGLTF('/scene.glb'); // Replace with your actual model path
+  const ref = useRef();
+
+  useFrame((state, delta) => {
+    // Rotate the model at a slow speed
+    // ref.current.rotation.y += delta * 0.1; // Adjust this value for speed (0.1 is slow)
+  });
+
+  return (
+    <primitive ref={ref} object={scene} position={position} scale={scale} />
   );
 }
