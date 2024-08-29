@@ -15,7 +15,7 @@ body,
 
 body {
     font-family: 'Inter';
-    background: #000;
+    /* background: #000; */
     cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxMCIgZmlsbD0iI0U4QjA1OSIvPjwvc3ZnPg=='),
         auto;
 }
@@ -48,6 +48,7 @@ canvas {
     opacity: 0;
     touch-action: none;
     animation: fade-in 5s ease 1s forwards;
+    background: #000;
 }
 
 .overlay {
@@ -88,4 +89,13 @@ canvas {
 .close-button:hover {
     color: #ccc;
     /* Optional: Change color on hover */
+}
+
+.loadingScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: greenyellow;
 }

@@ -5,6 +5,7 @@ import { Image, ScrollControls, useGLTF, useScroll } from '@react-three/drei';
 import { easing } from 'maath';
 import ReactPlayer from 'react-player'; // To play YouTube videos
 import './util';
+import LoadingScreen from './components/LoadingScreen';
 
 export const App = () => {
   const [overlay, setOverlay] = useState({ isOpen: false, mediaType: '', mediaUrl: '' });
@@ -18,7 +19,7 @@ export const App = () => {
   };
 
   return (
-    <Suspense fallback={<div className='text-white'>Loading...</div>}>
+    <Suspense fallback={<LoadingScreen />}>
       <Canvas camera={{ position: [0, 0, 100], fov: 15 }}>
         <ambientLight position={[0, 0, 0]} />
         <fog attach="fog" args={['#a79', 8.5, 12]} />
