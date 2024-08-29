@@ -15,7 +15,7 @@ body,
 
 body {
     font-family: 'Inter';
-    background: #fdfdfd;
+    background: #000;
     cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxMCIgZmlsbD0iI0U4QjA1OSIvPjwvc3ZnPg=='),
         auto;
 }
@@ -48,4 +48,39 @@ canvas {
     opacity: 0;
     touch-action: none;
     animation: fade-in 5s ease 1s forwards;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    /* Transparent black */
+    z-index: 1000;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    /* Adjust as needed */
+    right: 10px;
+    /* Adjust as needed */
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    /* Adjust size as needed */
+    cursor: pointer;
+    z-index: 1100;
+    /* Make sure it's above the content */
+}
+
+.close-button:hover {
+    color: #ccc;
+    /* Optional: Change color on hover */
 }
