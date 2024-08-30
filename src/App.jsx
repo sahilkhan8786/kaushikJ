@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Image, ScrollControls, useGLTF, useScroll } from '@react-three/drei';
@@ -6,9 +6,13 @@ import { easing } from 'maath';
 import ReactPlayer from 'react-player'; // To play YouTube videos
 import './util';
 import LoadingScreen from './components/LoadingScreen';
+import { gsap } from 'gsap'
+import Header from './components/Header';
+import Mouse from './components/Mouse';
 
 export const App = () => {
   const [overlay, setOverlay] = useState({ isOpen: false, mediaType: '', mediaUrl: '' });
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   const openOverlay = (mediaType, mediaUrl) => {
     setOverlay({ isOpen: true, mediaType, mediaUrl });
@@ -19,52 +23,79 @@ export const App = () => {
   };
 
   return (
-    <Suspense fallback={<LoadingScreen />}>
-      <Canvas camera={{ position: [0, 0, 100], fov: 15 }}>
-        <ambientLight position={[0, 0, 0]} />
-        <fog attach="fog" args={['#a79', 8.5, 12]} />
-        <ScrollControls pages={1}>
-          <Rig rotation={[0, 0, 0.15]}>
-            <Carousel openOverlay={openOverlay} />
-          </Rig>
-          <Model position={[0, 0, 0]} scale={[0.6, 0.6, 0.6]} rotation={[0, -Math.PI / 4, 0]} /> {/* Adjust position and scale as needed */}
-        </ScrollControls>
-      </Canvas>
+    <>
+      <Suspense fallback={<LoadingScreen />}>
+        <Canvas camera={{ position: [0, 0, 100], fov: 15 }}>
+          <ambientLight position={[0, 0, 0]} />
+          <fog attach="fog" args={['#a79', 8.5, 12]} />
 
+          <ScrollControls pages={1}>
 
-      {overlay.isOpen && (
-        <Overlay mediaType={overlay.mediaType} mediaUrl={overlay.mediaUrl} onClose={closeOverlay} />
-      )}
-    </Suspense>
+            <Rig rotation={[0, 0, 0]} animationComplete={animationComplete}>
+              <Carousel openOverlay={openOverlay} />
+            </Rig>
+
+            <Model position={[0, -0.6, 0]} scale={[0.8, 0.8, 0.8]} setAnimationComplete={setAnimationComplete} /> {/* Adjust position and scale as needed */}
+
+          </ScrollControls>
+        </Canvas>
+
+        {overlay.isOpen && (
+          <Overlay mediaType={overlay.mediaType} mediaUrl={overlay.mediaUrl} onClose={closeOverlay} />
+        )}
+        <Header />
+        {/* <Mouse /> */}
+      </Suspense>
+    </>
+
   );
 };
 
-function Rig(props) {
+
+
+function Rig({ animationComplete, ...props }) {
   const ref = useRef();
   const scroll = useScroll();
 
+  useEffect(() => {
+
+    // Example animation: Animate position only
+    gsap.fromTo(
+      ref.current.position,
+      { x: 10, y: -10, z: 0 },
+      {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 2,
+        delay: 3,
+        ease: 'power2.out'
+      }
+    );
+
+  }, []);
+
   useFrame((state, delta) => {
     ref.current.rotation.y = -scroll.offset * (Math.PI * 2);
-    ref.current.position.y = -scroll.offset;
-
-    easing.damp3(state.camera.position, [-state.pointer.x * 2, scroll.offset * 5, 10], 0.3, delta);
+    ref.current.position.y = -scroll.offset * 2;
+    state.camera.position.set(0, 0, 10);
     state.camera.lookAt(0, 0, 0);
   });
 
   return <group ref={ref} {...props} />;
 }
 
-function Carousel({ openOverlay, radius = 1.5, count = 5, spiralDistance = 0.5 }) {
+function Carousel({ openOverlay, radius = 3, count = 5, spiralDistance = 0.4 }) {
   const scroll = useScroll();
-  const centerPosition = scroll.offset * spiralDistance;
+  const centerPosition = scroll.offset;
 
   return (
     <group position={[0, centerPosition, 0]}>
       {Array.from({ length: count }, (_, i) => {
-        const mediaType = i % 2 === 0 ? 'image' : 'video'; // Alternating for example
+        const mediaType = i % 2 === 0 ? 'image' : 'video';
         const mediaUrl = mediaType === 'image'
           ? `/img${Math.floor(i % 10) + 1}_.jpg`
-          : 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'; // Example YouTube URL
+          : 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
 
         return (
           <Card
@@ -89,6 +120,9 @@ function Card({ mediaType, mediaUrl, openOverlay, ...props }) {
   const ref = useRef();
   const [hovered, hover] = useState(false);
 
+
+
+
   const pointerOver = (e) => (e.stopPropagation(), hover(true));
   const pointerOut = () => hover(false);
 
@@ -97,8 +131,9 @@ function Card({ mediaType, mediaUrl, openOverlay, ...props }) {
   };
 
   useFrame((state, delta) => {
-    easing.damp3(ref.current.scale, hovered ? 1.15 : 1, 0.1, delta);
+    easing.damp3(ref.current.scale, hovered ? 1.2 : 0.8, 0.1, delta);
   });
+
 
   return (
     <Image
@@ -126,14 +161,18 @@ function Overlay({ mediaType, mediaUrl, onClose }) {
     </div>
   );
 }
-function Model({ position, scale }) {
+function Model({ position, scale, setAnimationComplete }) {
   const { scene } = useGLTF('/scene.glb'); // Replace with your actual model path
   const ref = useRef();
-
-  useFrame((state, delta) => {
-    // Rotate the model at a slow speed
-    // ref.current.rotation.y += delta * 0.1; // Adjust this value for speed (0.1 is slow)
-  });
+  useEffect(() => {
+    // GSAP Animation for the model
+    gsap.timeline()
+      .fromTo(ref.current.rotation, { y: 0 }, { y: Math.PI * 2, duration: 5, ease: 'power2.inOut' })
+      .fromTo(ref.current.scale, { x: 0.4, y: 0.4, z: 0.4 }, { x: 0.9, y: 0.9, z: 0.9, duration: 5, ease: 'power2.inOut' }, 0)
+      .eventCallback('onComplete', () => {
+        setAnimationComplete(true);
+      });
+  }, [setAnimationComplete]);
 
   return (
     <primitive ref={ref} object={scene} position={position} scale={scale} />
