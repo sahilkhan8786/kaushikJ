@@ -8,7 +8,7 @@ import './util';
 import LoadingScreen from './components/LoadingScreen';
 import { gsap } from 'gsap'
 import Header from './components/Header';
-import Background from './components/Background.JSX';
+import Background from './components/Background.jsx';
 
 
 export const App = () => {
