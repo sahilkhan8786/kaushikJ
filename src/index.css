@@ -48,7 +48,7 @@ canvas {
     opacity: 0;
     touch-action: none;
     animation: fade-in 5s ease 1s forwards;
-    background: #000;
+    /* background: #000; */
 }
 
 .overlay {
@@ -106,7 +106,7 @@ canvas {
 .loadingScreen h1,
 .loadingScreen p {
     font-size: 8rem;
-    color: gold;
+    color: #a37805;
 
 }
 
@@ -121,24 +121,10 @@ header {
     justify-content: flex-start;
     padding: 5px;
     z-index: 100;
-    color: gold;
+    color: #a37805;
 }
 
-.mouse {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    /* background: green; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-}
 
-.mouse img {
-    width: 100%;
-    object-fit: contain;
-}
 
 .header-heading {
     font-size: 3rem;
@@ -152,4 +138,30 @@ header {
 
 img {
     opacity: 0;
+}
+
+.backgroundContainer {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.backgroundContainer h1 {
+    font-size: 10rem;
+    opacity: 1;
+    word-wrap: break-word;
+}
+
+
+@media screen and (min-width:768px) {
+    .backgroundContainer h1 {
+        font-size: 30rem;
+    }
 }

@@ -8,6 +8,7 @@ import './util';
 import LoadingScreen from './components/LoadingScreen';
 import { gsap } from 'gsap'
 import Header from './components/Header';
+import Background from './components/Background.JSX';
 
 
 export const App = () => {
@@ -25,6 +26,7 @@ export const App = () => {
   return (
     <>
       <Suspense fallback={<LoadingScreen />}>
+        <Background />
         <Canvas camera={{ position: [0, 0, 100], fov: 15 }}>
           <ambientLight position={[0, 0, 0]} />
           <fog attach="fog" args={['#a79', 8.5, 12]} />
@@ -131,7 +133,7 @@ function Card({ mediaType, mediaUrl, openOverlay, ...props }) {
   };
 
   useFrame((state, delta) => {
-    easing.damp3(ref.current.scale, hovered ? 1.2 : 0.8, 0.1, delta);
+    easing.damp3(ref.current.scale, hovered ? 0.8 : 0.6, 0.1, delta);
   });
 
 
