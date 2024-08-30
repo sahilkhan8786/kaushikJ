@@ -8,7 +8,7 @@ import './util';
 import LoadingScreen from './components/LoadingScreen';
 import { gsap } from 'gsap'
 import Header from './components/Header';
-import Mouse from './components/Mouse';
+
 
 export const App = () => {
   const [overlay, setOverlay] = useState({ isOpen: false, mediaType: '', mediaUrl: '' });
