@@ -1,4 +1,4 @@
-@import url('https://rsms.me/inter/inter.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
     box-sizing: border-box;
@@ -14,7 +14,7 @@ body,
 }
 
 body {
-    font-family: 'Inter';
+    font-family: "Montserrat", system-ui;
     /* background: #000; */
     cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxMCIgZmlsbD0iI0U4QjA1OSIvPjwvc3ZnPg=='),
         auto;
@@ -153,14 +153,59 @@ img {
 }
 
 .backgroundContainer h1 {
-    font-size: 10rem;
+    font-size: 8rem;
     opacity: 1;
     word-wrap: break-word;
 }
 
 
+
+.tabs-container {
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #fff;
+    width: 70%;
+    font-weight: 100;
+}
+
 @media screen and (min-width:768px) {
     .backgroundContainer h1 {
         font-size: 30rem;
     }
+
+    .tabs-container {
+        overflow: hidden;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        color: #fff;
+        width: 15%;
+    }
+}
+
+.tabs-container .tabs {
+    display: flex;
+    gap: 1rem;
+    padding: 4rem;
+}
+
+.tab {
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+    text-align: center;
+    padding-left: 2px 4px 2px 4px;
+
+}
+
+.tab-label {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: -12px;
+    --tw-bg-opacity: 1;
+    background-color: #fff;
+    height: 1px
 }

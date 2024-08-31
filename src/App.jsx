@@ -9,6 +9,7 @@ import LoadingScreen from './components/LoadingScreen';
 import { gsap } from 'gsap'
 import Header from './components/Header';
 import Background from './components/Background.jsx';
+import TabComponent from './components/TabComponent.jsx';
 
 
 export const App = () => {
@@ -37,7 +38,7 @@ export const App = () => {
               <Carousel openOverlay={openOverlay} />
             </Rig>
 
-            <Model position={[0, -0.6, 0]} scale={[0.8, 0.8, 0.8]} setAnimationComplete={setAnimationComplete} /> {/* Adjust position and scale as needed */}
+            <Model position={[0, -0.6, 0]} scale={[0.7, 0.7, 0.7]} setAnimationComplete={setAnimationComplete} /> {/* Adjust position and scale as needed */}
 
           </ScrollControls>
         </Canvas>
@@ -46,6 +47,7 @@ export const App = () => {
           <Overlay mediaType={overlay.mediaType} mediaUrl={overlay.mediaUrl} onClose={closeOverlay} />
         )}
         <Header />
+        <TabComponent />
         {/* <Mouse /> */}
       </Suspense>
     </>
@@ -87,7 +89,7 @@ function Rig({ animationComplete, ...props }) {
   return <group ref={ref} {...props} />;
 }
 
-function Carousel({ openOverlay, radius = 3, count = 5, spiralDistance = 0.4 }) {
+function Carousel({ openOverlay, radius = 0.8, count = 5, spiralDistance = 0.4 }) {
   const scroll = useScroll();
   const centerPosition = scroll.offset;
 
@@ -170,7 +172,7 @@ function Model({ position, scale, setAnimationComplete }) {
     // GSAP Animation for the model
     gsap.timeline()
       .fromTo(ref.current.rotation, { y: 0 }, { y: Math.PI * 2, duration: 5, ease: 'power2.inOut' })
-      .fromTo(ref.current.scale, { x: 0.4, y: 0.4, z: 0.4 }, { x: 0.9, y: 0.9, z: 0.9, duration: 5, ease: 'power2.inOut' }, 0)
+      .fromTo(ref.current.scale, { x: 0.4, y: 0.4, z: 0.4 }, { x: 0.7, y: 0.7, z: 0.7, duration: 5, ease: 'power2.inOut' }, 0)
       .eventCallback('onComplete', () => {
         setAnimationComplete(true);
       });
