@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 * {
     box-sizing: border-box;
@@ -14,10 +14,8 @@ body,
 }
 
 body {
-    font-family: "Montserrat", system-ui;
-    /* background: #000; */
-    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxMCIgZmlsbD0iI0U4QjA1OSIvPjwvc3ZnPg=='),
-        auto;
+    font-family: "Bebas Neue", sans-serif;
+
 }
 
 a {
@@ -107,7 +105,7 @@ canvas {
 .loadingScreen p {
     font-size: 8rem;
     color: #a37805;
-
+    font-family: "Bebas Neue", sans-serif;
 }
 
 header {
@@ -153,6 +151,7 @@ img {
 }
 
 .backgroundContainer h1 {
+    font-family: "Bebas Neue", sans-serif;
     font-size: 8rem;
     opacity: 1;
     word-wrap: break-word;
@@ -177,6 +176,7 @@ img {
 @media screen and (min-width:768px) {
     .backgroundContainer h1 {
         font-size: 30rem;
+        font-family: "Bebas Neue", sans-serif;
     }
 
     .tabs-container {
