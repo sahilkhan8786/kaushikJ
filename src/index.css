@@ -156,6 +156,10 @@ img {
     font-size: 8rem;
     opacity: 1;
     word-wrap: break-word;
+    background-image: radial-gradient(circle, #222, #a37805);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
 }
 
 
