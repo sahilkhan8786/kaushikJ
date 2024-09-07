@@ -96,17 +96,24 @@ canvas {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 2rem;
+    gap: 0rem;
     background-color: #111;
     z-index: 10000;
+    color: #a37805;
 }
 
-.loadingScreen h1,
-.loadingScreen p {
-    font-size: 8rem;
+.loadingScreen h1 {
+    font-size: 4rem;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.loadingScreen .para {
+    font-size: 1.5rem;
     color: #a37805;
     font-family: "Bebas Neue", sans-serif;
 }
+
+
 
 header {
     width: 100%;
@@ -152,10 +159,11 @@ img {
 
 .backgroundContainer h1 {
     font-family: "Bebas Neue", sans-serif;
-    font-size: 8rem;
+    font-size: 6rem;
     opacity: 1;
+    margin-top: 4rem;
     word-wrap: break-word;
-    background-image: radial-gradient(circle, #222, #a37805);
+    background-image: radial-gradient(circle, #dddd21, #a37805);
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
@@ -166,12 +174,13 @@ img {
 .tabs-container {
     overflow: hidden;
     position: absolute;
-    bottom: 0;
+    bottom: 15px;
     right: 0;
     color: #fff;
     width: 70%;
     font-weight: 100;
 }
+
 
 @media screen and (min-width:768px) {
     .backgroundContainer h1 {
@@ -197,6 +206,7 @@ img {
 
 .tab {
     position: relative;
+    right: 25px;
     flex: 1;
     cursor: pointer;
     text-align: center;
@@ -212,4 +222,149 @@ img {
     --tw-bg-opacity: 1;
     background-color: #fff;
     height: 1px
+}
+
+.explore-button {
+    position: absolute;
+    padding: 1rem 2rem;
+    top: 70%;
+    left: 30%;
+    color: white;
+    z-index: 50;
+
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.explore-button p {
+    width: 280px;
+    font-size: 20px;
+}
+
+.explore-button button {
+    width: fit-content;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #a37805;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.5rem;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.explore-button button:hover {
+    transform: translateX(8px);
+}
+
+
+.card-heading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    font-size: 45px;
+    letter-spacing: 2px;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    /* background: rgba(163, 120, 5, 0.4); */
+    padding: 5px;
+}
+
+/* styles.css */
+.progress-bar {
+    background: rgb(7, 31, 83);
+    height: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    /* Ensure it's on top */
+    transition: width 0.2s;
+}
+
+/* CountdownTimer.css */
+.countdown-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.countdown-timer {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.countdown-timer p {
+    font-size: 2rem;
+    margin: 0 0 20px 0;
+}
+
+.countdown-timer button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.audioPlayer {
+    z-index: 500;
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    font-size: 2rem;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    perspective: 100px;
+}
+
+.audioPlayer .cross {
+    width: 2px;
+    background: black;
+    height: 35px;
+    position: absolute;
+    bottom: 0px;
+    left: 15px;
+    transform: rotateZ(-45deg);
+}
+
+.audioPlayer:hover {
+    transform: scale(1.2);
+}
+
+.card-container {
+    position: relative;
+    display: inline-block;
+    /* Make sure it wraps around the content */
+}
+
+.card-heading {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    /* Adjust size as needed */
+    color: white;
+    /* Ensure good contrast with image */
 }
