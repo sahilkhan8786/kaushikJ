@@ -43,9 +43,12 @@ export const App = () => {
     <>
       <Suspense fallback={<LoadingScreen />}>
         <Background />
-        <Canvas camera={{ position: [0, 0, 50], fov: 15 }}>
-          <ambientLight />
-          <fog attach="fog" args={['#a79', 8.5, 12]} />
+        <Canvas camera={{ position: [0, 0, 50], fov: 15 }}
+          gl={{ preserveDrawingBuffer: true }}
+        >
+          <pointLight position={[0, 0, 0.5]} intensity={1} />
+          <ambientLight intensity={0.5} />
+          <fog attach="fog" args={['#ffffff', 8.5, 12]} />
           <ScrollControls pages={12}>
             <Rig
               rotation={[0, 0, 0]}
