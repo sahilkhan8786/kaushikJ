@@ -230,14 +230,14 @@ function Overlay({ mediaUrl, onClose }) {
 }
 
 function Model({ position, scale, setAnimationComplete }) {
-  const { scene } = useGLTF('/AkshayKumar.glb'); // Replace with your actual model path
+  const { scene } = useGLTF('/scene.glb'); // Replace with your actual model path
   const ref = useRef();
 
   useEffect(() => {
     // GSAP Animation for the model
     gsap.timeline()
       .fromTo(ref.current.rotation, { y: 0 }, { y: Math.PI * 2, duration: 5, ease: 'power2.inOut' })
-      .fromTo(ref.current.scale, { x: 0.02, y: 0.02, z: 0.02 }, { x: 0.04, y: 0.04, z: 0.04, duration: 5, ease: 'power2.inOut' }, 0)
+      .fromTo(ref.current.scale, { x: 0.4, y: 0.4, z: 0.4 }, { x: 0.7, y: 0.7, z: 0.7, duration: 5, ease: 'power2.inOut' }, 0)
       .eventCallback('onComplete', () => {
         setAnimationComplete(true);
       });
