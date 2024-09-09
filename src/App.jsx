@@ -14,22 +14,20 @@ import AudioPlayer from './components/AudioPlayer.jsx';
 import { mediaItems } from './constant/index.js';
 import { gsap } from 'gsap'
 
-const months = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-];
 
 export const App = () => {
+
   const [overlay, setOverlay] = useState({ isOpen: false, mediaUrl: '' });
   const [animationComplete, setAnimationComplete] = useState(false);
   const [isExploreClicked, setIsExploreClicked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [offset, setOffset] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // Update current page based on scroll offset
   useEffect(() => {
-    const page = Math.floor(offset * 12) + 1; // Assuming there are 12 pages
+    const page = Math.floor(scrollProgress * 12) + 1; // Assuming there are 12 pages
     setCurrentPage(page);
-  }, [offset]);
+  }, [scrollProgress]);
 
   const openOverlay = (mediaUrl) => {
     setOverlay({ isOpen: true, mediaUrl });
@@ -49,14 +47,15 @@ export const App = () => {
           <pointLight position={[0, 0, 0.5]} intensity={0.3} />
           <ambientLight intensity={0.5} />
           <fog attach="fog" args={['#ffffff', 8.5, 12]} />
-          <ScrollControls pages={12}>
+          <ScrollControls pages={10}>
             <Rig
               rotation={[0, 0, 0]}
               animationComplete={animationComplete}
+              setScrollProgress={setScrollProgress}
               isExploreClicked={isExploreClicked}
-              setOffset={setOffset}
               openOverlay={openOverlay}
               mediaItems={mediaItems}
+              setCurrentPage={setCurrentPage}
             />
             <Model
               position={[0, -0.6, 0]}
@@ -74,21 +73,59 @@ export const App = () => {
         {!isExploreClicked && <ExploreButton setIsExploreClicked={setIsExploreClicked} />}
         <AudioPlayer />
 
+        {/* Display the month name based on the currentPage */}
+        {/* Progress bar at the bottom */}
         <div style={{
           position: 'fixed',
-          bottom: '10px',
-          right: '10px',
-          fontSize: '24px',
-          color: 'white'
+          top: '25px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          alignItems: 'center',
+          width: '250px', // Full width container
+          justifyContent: 'space-between', // Space between "JAN" and "DEC"
+          padding: '0 20px' // Optional padding to add space on the sides
         }}>
-          {months[currentPage - 1]}
+          {/* Left label (JAN) */}
+          <p style={{
+            color: 'white',
+            margin: 0, // Remove margin for better alignment
+            fontWeight: 'bold',
+            fontSize: '24px'
+          }}>JAN</p>
+
+          {/* Progress bar container */}
+          <div style={{
+            position: 'relative',
+            flex: 1, // Make the progress bar container take up remaining space
+            margin: '0 20px', // Add margin between text and progress bar
+            height: '8px',
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          }}>
+            {/* Progress bar fill */}
+            <div style={{
+              width: `${scrollProgress * 100}%`, // Dynamic width based on scroll progress
+              height: '100%',
+              backgroundColor: '#a37805', // Progress bar color
+              transition: 'width 0.1s ease-out' // Smooth width transition
+            }} />
+          </div>
+
+          {/* Right label (DEC) */}
+          <p style={{
+            color: 'white',
+            margin: 0, // Remove margin for better alignment
+            fontWeight: 'bold',
+            fontSize: '24px'
+          }}>DEC</p>
         </div>
+
       </Suspense>
     </>
   );
 };
 
-function Rig({ setOffset, isExploreClicked, animationComplete, openOverlay, mediaItems, ...props }) {
+function Rig({ setScrollProgress, setCurrentPage, isExploreClicked, animationComplete, openOverlay, mediaItems, ...props }) {
   const ref = useRef();
   const scroll = useScroll();
 
@@ -109,15 +146,17 @@ function Rig({ setOffset, isExploreClicked, animationComplete, openOverlay, medi
     }
   }, [isExploreClicked]);
 
-  useEffect(() => {
-    setOffset(scroll.offset);
-  }, [scroll, setOffset]);
+
 
   useFrame((state, delta) => {
+    const currentPage = Math.floor(scroll.offset * 12) + 1; // Calculate the current page based on scroll offset
+    setCurrentPage(currentPage);
+
     const offset = scroll?.offset || 0; // Default to 0 if scroll is null
+    setScrollProgress(offset)
     if (ref.current) {
       ref.current.rotation.y = -offset * (Math.PI * 2);
-      ref.current.position.y = -offset * 2;
+      ref.current.position.y = -offset * 1.01;
     }
     state.camera.position.set(0, 0, 10);
     state.camera.lookAt(0, 0, 0);
@@ -135,12 +174,12 @@ function Rig({ setOffset, isExploreClicked, animationComplete, openOverlay, medi
   );
 }
 
-function Carousel({ openOverlay, mediaItems, radius = 3, spiralDistance = 0.2 }) {
+function Carousel({ openOverlay, mediaItems, radius = 2, spiralDistance = 0.15 }) {
   const scroll = useScroll();
-  const centerPosition = scroll?.offset || 0;
+  const offset = scroll?.offset
 
   return (
-    <group position={[0, -centerPosition, 0]}>
+    <group position={[0, -0.5, 0]}>
       {mediaItems.map((item, i) => {
         const { mediaUrl, label, imageURL } = item;
 
@@ -153,7 +192,7 @@ function Carousel({ openOverlay, mediaItems, radius = 3, spiralDistance = 0.2 })
             openOverlay={openOverlay}
             position={[
               Math.sin((i / mediaItems.length) * Math.PI * 2) * radius,
-              i * spiralDistance - centerPosition,
+              i * spiralDistance,
               Math.cos((i / mediaItems.length) * Math.PI * 2) * radius,
             ]}
             rotation={[0, Math.PI + (i / mediaItems.length) * Math.PI * 2, 0]}
@@ -161,30 +200,6 @@ function Carousel({ openOverlay, mediaItems, radius = 3, spiralDistance = 0.2 })
           />
         );
       })}
-    </group>
-  );
-}
-
-function HeadingCarousel({ mediaItems }) {
-  const scroll = useScroll();
-  const centerPosition = scroll?.offset || 0;
-
-  return (
-    <group>
-      {mediaItems.map((item, i) => (
-        <Html
-          key={i}
-          style={{
-            color: 'white',
-            fontSize: '24px',
-            textAlign: 'center',
-            position: 'absolute',
-            transform: `translateY(${i * 0.2 - centerPosition}px)`,
-          }}
-        >
-          <div>{item.label}</div>
-        </Html>
-      ))}
     </group>
   );
 }

@@ -134,6 +134,7 @@ header {
 .header-heading {
     font-size: 3rem;
     padding-left: 12px;
+    padding-top: 1rem;
     cursor: pointer;
 }
 
@@ -264,6 +265,11 @@ img {
     transform: translateX(8px);
 }
 
+@media screen and (max-width:500px) {
+    .explore-button {
+        left: 50%;
+    }
+}
 
 .card-heading {
     position: absolute;
