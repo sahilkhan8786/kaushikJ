@@ -74,7 +74,7 @@ export const App = () => {
 
         {/* Display the month name based on the currentPage */}
         {/* Progress bar at the bottom */}
-        <div style={{
+        {isExploreClicked && <div style={{
           position: 'fixed',
           top: '25px',
           left: '50%',
@@ -117,7 +117,7 @@ export const App = () => {
             fontWeight: 'bold',
             fontSize: '24px'
           }}>DEC</p>
-        </div>
+        </div>}
 
       </Suspense>
     </>
