@@ -46,7 +46,7 @@ export const App = () => {
         <Canvas camera={{ position: [0, 0, 50], fov: 15 }}
           gl={{ preserveDrawingBuffer: true }}
         >
-          <pointLight position={[0, 0, 0.5]} intensity={1} />
+          <pointLight position={[0, 0, 0.5]} intensity={0.3} />
           <ambientLight intensity={0.5} />
           <fog attach="fog" args={['#ffffff', 8.5, 12]} />
           <ScrollControls pages={12}>
