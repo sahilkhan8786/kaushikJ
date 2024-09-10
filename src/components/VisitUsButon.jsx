@@ -19,7 +19,10 @@ function VisitUsButon() {
     return (
         <div ref={visitUsButtonRef} className="visitus-button">
             <p></p>
-            <button >Visit Us</button>
+            <a href="https://european-wellness.in/" target="blank">
+                <button >Visit Us</button>
+
+            </a>
         </div>
     );
 }
