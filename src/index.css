@@ -243,12 +243,28 @@ img {
     align-items: flex-end;
 }
 
-.explore-button p {
+.visitus-button {
+    position: absolute;
+    padding: 1rem 2rem;
+    top: 60%;
+    right: 10%;
+    color: white;
+    z-index: 50;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.explore-button p,
+.visitus-button p {
     width: 280px;
     font-size: 20px;
 }
 
-.explore-button button {
+.explore-button button,
+.visitus-button button {
     width: fit-content;
     background: transparent;
     border: none;
@@ -262,6 +278,10 @@ img {
 }
 
 .explore-button button:hover {
+    transform: translateX(8px);
+}
+
+.visitus-button button:hover {
     transform: translateX(8px);
 }
 

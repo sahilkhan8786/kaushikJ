@@ -13,6 +13,7 @@ import ExploreButton from './components/ExploreButton.jsx';
 import AudioPlayer from './components/AudioPlayer.jsx';
 import { mediaItems } from './constant/index.js';
 import { gsap } from 'gsap'
+import VisitUsButon from './components/VisitUsButon.jsx';
 
 
 export const App = () => {
@@ -25,7 +26,7 @@ export const App = () => {
 
   // Update current page based on scroll offset
   useEffect(() => {
-    const page = Math.floor(scrollProgress * 12) + 1; // Assuming there are 12 pages
+    const page = Math.floor(scrollProgress * 12) + 1;
     setCurrentPage(page);
   }, [scrollProgress]);
 
@@ -39,12 +40,13 @@ export const App = () => {
 
   return (
     <>
+
       <Suspense fallback={<LoadingScreen />}>
         <Background />
         <Canvas camera={{ position: [0, 0, 50], fov: 15 }}
           gl={{ preserveDrawingBuffer: true }}
         >
-          <pointLight position={[0, 0, 0.5]} intensity={0.3} />
+          <pointLight position={[0, 0, 0.5]} intensity={0.1} />
           <fog attach="fog" args={['#ffffff', 8.5, 12]} />
           <ScrollControls pages={10}>
             <Rig
@@ -59,6 +61,7 @@ export const App = () => {
             <Model
               position={[0, -0.6, 0]}
               scale={[0.7, 0.7, 0.7]}
+              scrollProgress={scrollProgress}
               setAnimationComplete={setAnimationComplete}
             />
           </ScrollControls>
@@ -71,6 +74,7 @@ export const App = () => {
         <TabComponent />
         {!isExploreClicked && <ExploreButton setIsExploreClicked={setIsExploreClicked} />}
         <AudioPlayer />
+        {currentPage >= 12 && <VisitUsButon />}
 
         {/* Display the month name based on the currentPage */}
         {/* Progress bar at the bottom */}
@@ -246,19 +250,29 @@ function Overlay({ mediaUrl, onClose }) {
   );
 }
 
-function Model({ position, scale, setAnimationComplete }) {
+function Model({ position, scale, setAnimationComplete, scrollProgress }) {
   const { scene } = useGLTF('/scene.glb'); // Replace with your actual model path
   const ref = useRef();
-
+  const [isGsapComplete, setIsGsapComplete] = useState(false);
   useEffect(() => {
-    // GSAP Animation for the model
+    // GSAP Animation for the initial model entry
     gsap.timeline()
       .fromTo(ref.current.rotation, { y: 0 }, { y: Math.PI * 2, duration: 5, ease: 'power2.inOut' })
       .fromTo(ref.current.scale, { x: 0.4, y: 0.4, z: 0.4 }, { x: 0.7, y: 0.7, z: 0.7, duration: 5, ease: 'power2.inOut' }, 0)
       .eventCallback('onComplete', () => {
+        setIsGsapComplete(true);
         setAnimationComplete(true);
       });
   }, [setAnimationComplete]);
+
+  // Update model rotation based on scroll progress
+  useFrame(() => {
+    if (ref.current && isGsapComplete) {
+      // Rotate model based on scroll progress
+      ref.current.rotation.y = scrollProgress * (Math.PI / 8);
+      // Full rotation at scrollProgress of 1
+    }
+  });
 
   return (
     <primitive ref={ref} object={scene} position={position} scale={scale} />
