@@ -1,7 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
 * {
     box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'CustomFont';
+    /* Your custom font name */
+    src: url('./assets/custom.otf') format('opentype');
+    /* Use the correct path */
+    font-weight: normal;
+    font-style: normal;
 }
 
 html,
@@ -14,7 +21,7 @@ body,
 }
 
 body {
-    font-family: "Bebas Neue", sans-serif;
+    font-family: 'CustomFont', sans-serif;
 
 }
 
@@ -104,13 +111,13 @@ canvas {
 
 .loadingScreen h1 {
     font-size: 4rem;
-    font-family: "Bebas Neue", sans-serif;
+    font-family: 'CustomFont', sans-serif;
 }
 
 .loadingScreen .para {
     font-size: 1.5rem;
     color: #a37805;
-    font-family: "Bebas Neue", sans-serif;
+    font-family: 'CustomFont', sans-serif;
 }
 
 
@@ -159,8 +166,8 @@ img {
 }
 
 .backgroundContainer h1 {
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 10rem;
+    font-family: 'CustomFont', sans-serif;
+    font-size: 8rem;
     opacity: 1;
     margin-top: 4rem;
     word-wrap: break-word;
@@ -168,7 +175,7 @@ img {
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
-    letter-spacing: 12rem;
+    letter-spacing: 8rem;
     opacity: 0.1;
     padding-left: 12rem
 }
