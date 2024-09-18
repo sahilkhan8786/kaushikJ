@@ -223,7 +223,7 @@ function Card({ i, mediaUrl, imageURL, openOverlay, label, ...props }) {
   };
 
   useFrame((state, delta) => {
-    easing.damp3(ref.current.scale, hovered ? 0.8 : 0.6, 0.1, delta);
+    easing.damp3(ref.current.scale, hovered ? 1 : 0.8, 0.1, delta);
   });
 
   return (
